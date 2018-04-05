@@ -1,0 +1,29 @@
+   <div class = "header">
+  <h1 style = "padding-top: 15px">LOCAL WEATHER APP</h1>
+  </div>
+<div class = "weather-box">
+  <div class = "loc">
+  <p id = "location" style = "color: white"></p>
+  <p id = "date"></p>
+  <p id = "description" style = "color: white">Right now: </p>
+    <p id = hourly> </p>
+  </div>
+  <div class = "container" style = "color: #B82601">
+  <div class = "row">
+    <div class = "col-md-3 icons">
+      <a href="https://darkskyapp.github.io/skycons/"><canvas id = "icon" width="100" height="100"></canvas></a>
+    </div>
+    <div class = "col-md-2" style = "margin-top: 20px">
+      <p id = "temp"></p>
+      <button class = "btn btn-info btn-sm" id = "toggle">Convert Temp</button>
+        </div>
+    <div class = "col-md-4" style = "text-align: left;  margin-top: 20px; margin-left: 30px">
+        <div id = precipitation>Precipitation: </div>
+        <div id = humidity>Humidity: </div>
+        <div id = wind>Wind Speed: </div>
+      
+      </div>
+  </div>
+  </div>
+  <a href="https://darksky.net/poweredby/"><p class = "link">Powered by Dark Sky</p>
+    </div>
