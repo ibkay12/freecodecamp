@@ -1,0 +1,115 @@
+var a = document.getElementById("wikipedia");
+var c = document.getElementById("btn-result");
+var d = document.getElementById("return");
+
+function wikipediaSearch(keyword) {
+   $.ajax({
+      url:
+         "https://crossorigin.me/https://en.wikipedia.org//w/api.php?action=query&format=json&prop=&list=search&srsearch=" +
+            keyword,
+      format: "jsonp",
+      success: function(result) {
+         console.log(result.query);
+         if (result.query.searchinfo.totalhits === 0) {
+            $(".display-results").append(
+               "<div class='error'> <p>Your search <span class='keyword'>" +
+                  keyword +
+                  "</span> did not match any documents.</p> <p>Suggestions:</p><li>Make sure that all words are spelled correctly.</li><li>Try different keywords.</li><li>Try more general keywords.</li></div> "
+            );
+         } else {
+            for (var i = 0; i < 10; i++) {
+               var title = result.query.search[i].title;
+               var snippet = result.query.search[i].snippet;
+               var url = title.replace(/ /g, "_");
+               var timestamp = result.query.search[i].timestamp;
+               timestamp = new Date(timestamp);
+               $(".display-results").append(
+                  "<div class = 'search-results'>" +
+                     "<span>" +
+                     "<a href='https://en.wikipedia.org/wiki/" +
+                     url +
+                     "' target='_blank'>" +
+                     title +
+                     "</a>" +
+                     "</span>" +
+                     "<br>" +
+                     "<span>" +
+                     snippet +
+                     "</span>" +
+                     "<br>" +
+                     "<span class = 'timestamp' style = 'color: black'>" +
+                     timestamp +
+                     "</span>" +
+                     "</div>"
+               );
+            }
+         }
+      }
+   });
+}
+
+function searchClick() {
+   $(".display-results").empty();
+   var keyword = $(".wikipedia-search").val();
+
+   if (keyword !== "") {
+      $(".result-wiki-search-form-input").val(keyword);
+      document.getElementById("results").className = document
+         .getElementById("results")
+         .className.replace(/(?:^|\s)hidden(?!\S)/g, "");
+      document.getElementById("search").className = "hidden";
+      wikipediaSearch(keyword);
+   } else {
+      alert("Ooops! Please enter a keyword.");
+   }
+};
+
+a.onclick = function (event) {
+   event.preventDefault();
+   searchClick();
+};
+
+$("#wikipedia-search").keypress(function(event){
+    if(event.keyCode == 13){
+       searchClick();
+    }
+});
+
+d.onclick = function(event) {
+   event.preventDefault();
+   $(".display-results").empty();
+   document.getElementById("search").className = document
+      .getElementById("search")
+      .className.replace(/(?:^|\s)hidden(?!\S)/g, "");
+   document.getElementById("results").className = "hidden";
+   $(".wikipedia-search").val("");
+};
+
+function resultClick() {
+   $(".display-results").empty();
+   var keyword = $(".result-wiki-search-form-input").val();
+
+   if (keyword !== "") {
+      $(".result-wiki-search-form-input").val(keyword);
+      wikipediaSearch(keyword);
+   } else {
+      alert("Ooops! Please enter a keyword.");
+   }
+};
+
+c.onclick = function(event) {
+   event.preventDefault();
+   resultClick();
+}
+
+$(".result-wiki-search-form-input").keypress(function(event){
+    if(event.keyCode == 13){
+       resultClick();
+    }
+});
+
+$(document).ready(function() {
+   document.getElementById("results").className = "hidden";
+   $(".display-results").empty();
+});
+
