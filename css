@@ -1,0 +1,75 @@
+body {
+  text-align: center;
+  font-family: 'Source Sans Pro', sans-serif;
+   background-image: url('https://s-media-cache-ak0.pinimg.com/originals/42/7c/47/427c47e1e7ad137bae2f7ead73507e5b.jpg');
+  background-repeat: no-repeat;
+}
+.search {
+   margin-top: 17%;
+   margin-left: 2%;
+}
+
+.search-results {
+   margin-bottom: 10px;
+   text-align: justify;
+}
+
+.hidden {
+  display: none;
+}
+
+button {
+   width: auto;
+   font-family: 'Flamenco', cursive;
+   text-transform: uppercase;
+}
+
+#result-wiki-search-form-input {
+   background-image: none; !important
+}
+
+input[type=text] {
+  width: 500px;
+  -webkit-transition-duration: 1s;
+  transition-duration: 1s;
+  padding: 15px 30px;
+  height: 50px;
+  font-size: 11pt;
+  margin-top: 30px;
+  border: 1px solid white;
+  border-radius: 10px;
+  background-image: url('http://res.cloudinary.com/ibkay12/image/upload/c_scale,q_100,w_20/v1499707565/search_b1mhua.png');
+  background-position: 20px 15px;
+  background-repeat: no-repeat;
+}
+
+input[type=text]:focus {
+  width: 500px;
+  background-position: 10px 50px;
+  background-color: white;
+  outline: none;
+}
+
+button {
+  -webkit-transition-duration: 1s;
+  transition-duration: 1s;
+}
+
+button:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+button::focus {
+  outline: none;
+}
+
+#wikipedia {
+  margin-top: 20px;
+}
+
+#random {
+  margin-top: 20px;
+   margin-left: 25px;
+}
+
