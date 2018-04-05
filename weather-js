@@ -1,0 +1,107 @@
+var x = document.getElementById("location");
+var y = document.getElementById("description");
+var z = document.getElementById("temp");
+var a = document.getElementById("icon");
+var b = document.getElementById("toggle");
+var c = document.getElementById("weekly");
+var f = document.getElementById("hourly");
+var g = document.getElementById("humidity");
+var h = document.getElementById("precipitation");
+var i = document.getElementById("wind");
+var skycons = new Skycons({ color: "white" });
+var e = new Date();
+
+function getLocation() {
+  document.getElementById("date").innerHTML = e;
+  
+  $.getJSON("https://ipinfo.io/geo", function(response) {
+    var city = response.city;
+    var region = response.region;
+    var loc = response.loc.split(",");
+    var latitude = loc[0];
+    var longitude = loc[1];
+    var country = response.country;
+    var tempLabel = " °F";
+    var zip = response.postal;
+    x.innerHTML = city + ", " + region;
+    
+    $.get(
+      "https://api.darksky.net/forecast/51158188d3979237b40d0a2e42717fd7/" +
+        latitude +
+        ", " +
+        longitude,
+      function(weather) {
+        var summary = weather.currently.icon;
+        var temperature = weather.currently.temperature;
+        var forecast = weather.hourly.summary;
+        var humidity = (weather.currently.humidity) * 100;
+        var windspeed = weather.currently.windSpeed;
+        var precipitation = (weather.currently.precipIntensity) * 100;
+        y.append(summary);
+        z.append(temperature + tempLabel);
+        f.append(forecast);
+        g.append(humidity + "%");
+        h.append(precipitation + "%");
+        i.append(windspeed + " miles/h");
+        
+        b.onclick = function convertTemp() {
+          if (tempLabel.indexOf("F") > 0) {
+            var celsius = Math.round((temperature - 32) * 5 / 9);
+            tempLabel = " °C";
+            z.innerHTML = "";
+            z.append(celsius + tempLabel);
+          }
+          else {
+            tempLabel = " °F";
+            z.innerHTML = "";
+            z.append(temperature + tempLabel);
+          }
+        }
+
+        if (summary.indexOf("rain") >= 0) {
+          skycons.add(document.getElementById("icon"), Skycons.RAIN);
+          skycons.play();
+        } else if (summary.indexOf("clear-day") >= 0) {
+          skycons.add(document.getElementById("icon"), Skycons.CLEAR_DAY);
+          skycons.play();
+        } else if (summary.indexOf("clear-night") >= 0) {
+          skycons.add(document.getElementById("icon"), Skycons.CLEAR_NIGHT);
+          skycons.play();
+        } else if (summary.indexOf("partly-cloudy-day") >= 0) {
+          skycons.add(
+            document.getElementById("icon"),
+            Skycons.PARTLY_CLOUDY_DAY
+          );
+          skycons.play();
+        } else if (summary.indexOf("partly-cloudy-night") >= 0) {
+          skycons.add(
+            document.getElementById("icon"),
+            Skycons.PARTLY_CLOUDY_NIGHT
+          );
+          skycons.play();
+        } else if (summary.indexOf("cloudy") >= 0) {
+          skycons.add(document.getElementById("icon"), Skycons.cloudy);
+          skycons.play();
+        } else if (summary.indexOf("sleet") >= 0) {
+          skycons.add(document.getElementById("icon"), Skycons.SLEET);
+          skycons.play();
+        } else if (summary.indexOf("snow") >= 0) {
+          skycons.add(document.getElementById("icon"), Skycons.SNOW);
+          skycons.play();
+        } else if (summary.indexOf("wind") >= 0) {
+          skycons.add(document.getElementById("icon"), Skycons.WIND);
+          skycons.play();
+        } else if (summary.indexOf("fog") >= 0) {
+          skycons.add(document.getElementById("icon"), Skycons.FOG);
+          skycons.play();
+        }
+      },
+      "jsonp"
+    );
+  });
+}
+
+$(document).ready(function() {
+  getLocation();
+});
+
